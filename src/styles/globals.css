@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-primary: #2563eb;
+  --brand-secondary: #1e40af;
+  --brand-accent: #3b82f6;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Score gauge animations */
+@keyframes scoreReveal {
+  from { stroke-dashoffset: 283; }
+}
+
+.score-gauge {
+  animation: scoreReveal 1.5s ease-out forwards;
+}
+
+/* Tab transitions */
+.tab-content-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.tab-content-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Funnel visualization */
+.funnel-stage {
+  transition: all 0.3s ease;
+}
+.funnel-stage:hover {
+  transform: scale(1.02);
+}
+
+/* Print styles for reports */
+@media print {
+  .no-print { display: none !important; }
+  .print-break { page-break-before: always; }
+  body { background: white; }
+}
