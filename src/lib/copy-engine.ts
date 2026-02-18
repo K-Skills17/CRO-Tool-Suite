@@ -17,7 +17,7 @@ import {
   ErrorCode,
   type AppError,
 } from '@/utils/errors';
-import { HEALTHCARE_VERTICALS, type VerticalId } from '@/config/healthcare-verticals';
+import { INDUSTRY_VERTICALS, type VerticalId, getCustomerTerm } from '@/config/healthcare-verticals';
 
 // ---------------------------------------------------------------------------
 // Interfaces
@@ -77,7 +77,7 @@ const CLARITY_DETRACTORS = [
  * improvements, and a framework suggestion.
  *
  * @param text - The copy text to analyse.
- * @param verticalId - Optional healthcare vertical for scoring adjustments.
+ * @param verticalId - Optional industry vertical for scoring adjustments.
  */
 export function analyzeAndScore(text: string, verticalId?: string): CopyReport {
   if (!text || text.trim().length === 0) {
@@ -111,9 +111,10 @@ export function analyzeAndScore(text: string, verticalId?: string): CopyReport {
     );
 
     // ---- Vertical-specific adjustments ----
-    if (verticalId && verticalId in HEALTHCARE_VERTICALS) {
-      const verticalConfig = HEALTHCARE_VERTICALS[verticalId as VerticalId];
+    if (verticalId && verticalId in INDUSTRY_VERTICALS) {
+      const verticalConfig = INDUSTRY_VERTICALS[verticalId as VerticalId];
       const lowerText = text.toLowerCase();
+      const customerTermPlural = getCustomerTerm(verticalId as VerticalId, true);
 
       // Bonus for addressing the vertical's common pain points
       const painPointHits = verticalConfig.commonPainPoints.filter(
@@ -141,7 +142,7 @@ export function analyzeAndScore(text: string, verticalId?: string): CopyReport {
       }
       if (desireHits === 0) {
         improvements.push(
-          `Incorporate patient desires: ${verticalConfig.commonDesires.slice(0, 3).join(', ')}.`,
+          `Incorporate ${customerTermPlural} desires: ${verticalConfig.commonDesires.slice(0, 3).join(', ')}.`,
         );
       }
     }
@@ -319,7 +320,7 @@ function calculateEmotionalScore(analysis: CopyAnalysis): number {
 
 function calculateReadabilityScore(analysis: CopyAnalysis): number {
   // Map Flesch Reading Ease (0-100) to our score.
-  // Target for healthcare: 60-70 is ideal (8th grade level).
+  // Target: 60-70 is ideal for most audiences (8th grade level).
   const flesch = analysis.readingEase;
 
   if (flesch >= 60 && flesch <= 80) return 95;
@@ -377,7 +378,7 @@ function suggestFramework(
   }
 
   if (analysis.benefitToFeatureRatio < 0.8) {
-    return 'FAB (Feature-Advantage-Benefit): Your copy is feature-heavy. FAB will help you translate each feature into a clear patient benefit.';
+    return 'FAB (Feature-Advantage-Benefit): Your copy is feature-heavy. FAB will help you translate each feature into a clear customer benefit.';
   }
 
   if (scores.clarity < 50) {
@@ -439,8 +440,8 @@ function generateAIDAVariation(text: string, type: string): CopyVariation {
     rewritten = `Yes, I Want to ${capitalizeFirst(core.benefit)}!`;
   } else {
     rewritten = `Imagine ${core.benefit}. ` +
-      `Our patients achieve this through ${core.solution}. ` +
-      `With proven results and personalized care, you deserve a better experience. ` +
+      `Our customers achieve this through ${core.solution}. ` +
+      `With proven results and personalized service, you deserve a better experience. ` +
       `${core.ctaAction} and take the first step today.`;
   }
 
@@ -512,16 +513,16 @@ function generateSocialProofVariation(text: string, type: string): CopyVariation
   if (type === 'headline' || type === 'subheadline') {
     rewritten = `Trusted by Thousands -- ${capitalizeFirst(core.benefit)} Starts Here`;
   } else if (type === 'cta') {
-    rewritten = `Join Hundreds of Happy Patients -- ${core.ctaAction}`;
+    rewritten = `Join Hundreds of Happy Customers -- ${core.ctaAction}`;
   } else {
-    rewritten = `Hundreds of patients have already experienced ${core.benefit} with ${core.solution}. ` +
+    rewritten = `Hundreds of customers have already experienced ${core.benefit} with ${core.solution}. ` +
       `Don't just take our word for it -- our results speak for themselves. ` +
-      `${core.ctaAction} and see why patients trust us for ${core.benefit}.`;
+      `${core.ctaAction} and see why customers trust us for ${core.benefit}.`;
   }
 
   return {
     text: rewritten,
-    hypothesis: 'Social proof reduces perceived risk and builds trust, particularly effective for healthcare where trust is the primary conversion driver.',
+    hypothesis: 'Social proof reduces perceived risk and builds trust, particularly effective in trust-driven industries where credibility is the primary conversion driver.',
     framework: 'Social Proof',
     predictedLiftMin: 7,
     predictedLiftMax: 20,
@@ -538,7 +539,7 @@ function applyPAS(sentences: string[], original: string): string {
 
   return [
     `[PROBLEM]`,
-    `Are you struggling with ${core.painPoint}? You're not alone -- it's one of the most common concerns we hear from patients.`,
+    `Are you struggling with ${core.painPoint}? You're not alone -- it's one of the most common concerns we hear from our customers.`,
     ``,
     `[AGITATE]`,
     `Left unaddressed, ${core.painPoint} can ${core.agitation}. The longer you wait, the harder it becomes to find relief.`,
@@ -558,7 +559,7 @@ function applyAIDA(sentences: string[], original: string): string {
     `What if you could ${core.benefit} -- without the stress of ${core.painPoint}?`,
     ``,
     `[INTEREST]`,
-    `${core.solution} uses proven methods to deliver real, lasting results. Our experienced team has helped countless patients transform their lives.`,
+    `${core.solution} uses proven methods to deliver real, lasting results. Our experienced team has helped countless customers achieve their goals.`,
     ``,
     `[DESIRE]`,
     `Imagine waking up every day feeling confident and comfortable. No more worrying about ${core.painPoint}. Just the results you deserve.`,
@@ -576,7 +577,7 @@ function applyBAB(sentences: string[], original: string): string {
     `Right now, you may be dealing with ${core.painPoint}. It affects your daily life, your confidence, and your well-being.`,
     ``,
     `[AFTER]`,
-    `But imagine a life where ${core.benefit}. Where you feel confident, comfortable, and in control. That's the transformation our patients experience.`,
+    `But imagine a life where ${core.benefit}. Where you feel confident, comfortable, and in control. That's the transformation our customers experience.`,
     ``,
     `[BRIDGE]`,
     `${core.solution} is the bridge between where you are and where you want to be. With trusted, personalized care, we'll guide you every step of the way.`,
@@ -622,7 +623,7 @@ function extractCoreMessage(sentences: string[]): CoreMessage {
   const solution = extractSolution(fullText) || 'our dedicated care';
   const benefit = extractBenefit(fullText) || 'achieve the results you deserve';
   const agitation = `affect your quality of life and overall well-being`;
-  const ctaAction = extractCtaAction(fullText) || 'Book your consultation';
+  const ctaAction = extractCtaAction(fullText) || 'Get started today';
 
   return { painPoint, agitation, solution, benefit, ctaAction };
 }

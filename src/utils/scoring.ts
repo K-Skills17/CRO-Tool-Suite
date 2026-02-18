@@ -166,9 +166,9 @@ function getRecommendation(category: AuditCategory, score: number): string {
       high: 'Fine-tune visual details. Consider A/B testing layout variations.',
     },
     copyEffectiveness: {
-      low: 'Rewrite copy to focus on patient benefits. Simplify reading level and add emotional triggers.',
+      low: 'Rewrite copy to focus on customer benefits. Simplify reading level and add emotional triggers.',
       mid: 'Strengthen headlines, add objection handling, and include more benefit-focused language.',
-      high: 'Test copy variations. Consider adding patient language from reviews.',
+      high: 'Test copy variations. Consider adding customer language from reviews.',
     },
     trustCredibility: {
       low: 'Add testimonials, credentials, and trust signals immediately. Display phone number and address.',

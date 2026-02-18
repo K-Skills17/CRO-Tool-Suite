@@ -52,24 +52,32 @@ function countWordSyllables(word: string): number {
   return matches ? matches.length : 1;
 }
 
-// Power words that increase conversion
+// Power words that increase conversion (cross-industry)
 const POWER_WORDS = [
   'guaranteed', 'proven', 'trusted', 'free', 'instant', 'exclusive',
   'limited', 'save', 'results', 'professional', 'certified', 'expert',
   'safe', 'painless', 'comfortable', 'affordable', 'personalized',
   'experienced', 'advanced', 'gentle', 'caring', 'compassionate',
   'confidential', 'state-of-the-art', 'transforming', 'life-changing',
+  // Additional cross-industry power words
+  'award-winning', 'best-selling', 'premium', 'innovative', 'revolutionary',
+  'effortless', 'risk-free', 'money-back', 'fast', 'easy', 'simple',
+  'powerful', 'reliable', 'secure', 'scalable', 'custom',
   // Portuguese power words
   'gratuito', 'garantido', 'comprovado', 'exclusivo', 'profissional',
   'seguro', 'indolor', 'confortável', 'acessível', 'personalizado',
   'experiente', 'avançado', 'carinhoso', 'confidencial', 'transformador',
 ];
 
-// Emotional trigger words
+// Emotional trigger words (cross-industry)
 const EMOTIONAL_TRIGGERS = [
   'afraid', 'worried', 'anxious', 'confident', 'beautiful', 'healthy',
   'pain', 'relief', 'comfort', 'trust', 'fear', 'hope', 'smile',
   'transform', 'dream', 'deserve', 'imagine', 'finally', 'peace',
+  // Additional cross-industry emotional triggers
+  'frustrated', 'overwhelmed', 'struggling', 'thriving', 'success',
+  'freedom', 'proud', 'empowered', 'inspired', 'excited', 'love',
+  'stress', 'growth', 'value', 'happy',
   // Portuguese
   'medo', 'preocupado', 'ansioso', 'confiante', 'bonito', 'saudável',
   'dor', 'alívio', 'conforto', 'confiança', 'esperança', 'sorriso',
@@ -134,7 +142,7 @@ export function analyzeCopy(text: string): CopyAnalysis {
 
   // Calculate copy score (0-100)
   let copyScore = 0;
-  // Reading ease (target: 60-70 for healthcare)
+  // Reading ease (target: 60-70 for general audiences)
   copyScore += readingEase >= 50 && readingEase <= 80 ? 20 : readingEase >= 30 ? 10 : 5;
   // Power words
   copyScore += Math.min(20, powerWordCount * 3);
@@ -175,13 +183,13 @@ export function generateCopyImprovements(analysis: CopyAnalysis): string[] {
     improvements.push('Add more persuasive power words: guaranteed, proven, trusted, safe, comfortable.');
   }
   if (analysis.emotionalTriggerCount < 2) {
-    improvements.push('Include emotional triggers that connect with patient fears and desires.');
+    improvements.push('Include emotional triggers that connect with customer fears and desires.');
   }
   if (analysis.benefitToFeatureRatio < 1.0) {
     improvements.push('Rebalance copy to lead with benefits ("You\'ll feel...") rather than features ("We offer...").');
   }
   if (analysis.secondPersonCount < 3) {
-    improvements.push('Use more "you/your" language to speak directly to the patient.');
+    improvements.push('Use more "you/your" language to speak directly to the reader.');
   }
   if (analysis.avgWordsPerSentence > 25) {
     improvements.push('Break long sentences into shorter ones (aim for 15-20 words per sentence).');

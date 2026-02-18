@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { VERTICAL_OPTIONS } from '@/config/healthcare-verticals';
+import { getVerticalOptionsByIndustry } from '@/config/healthcare-verticals';
 import type { QuestionnaireAnswers } from '@/lib/component-library';
 
 interface PageQuestionnaireProps {
@@ -76,22 +76,29 @@ export default function PageQuestionnaire({ onComplete }: PageQuestionnaireProps
       {/* Step 0: Vertical */}
       {step === 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">What type of healthcare practice?</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">What type of business?</h3>
           <p className="text-sm text-gray-500 mb-4">This determines component recommendations and scoring weights.</p>
-          <div className="space-y-2">
-            {VERTICAL_OPTIONS.map((v) => (
-              <button
-                key={v.value}
-                onClick={() => updateAnswer('vertical', v.value)}
-                className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                  answers.vertical === v.value
-                    ? 'border-blue-500 bg-blue-50 text-blue-900'
-                    : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                }`}
-              >
-                <span className="font-medium">{v.label}</span>
-                <span className="text-xs text-gray-400 ml-2">{v.description}</span>
-              </button>
+          <div className="space-y-4 max-h-96 overflow-y-auto pr-1">
+            {getVerticalOptionsByIndustry().map((group) => (
+              <div key={group.industry}>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 sticky top-0 bg-white py-1">{group.label}</p>
+                <div className="space-y-2">
+                  {group.verticals.map((v) => (
+                    <button
+                      key={v.value}
+                      onClick={() => updateAnswer('vertical', v.value)}
+                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                        answers.vertical === v.value
+                          ? 'border-blue-500 bg-blue-50 text-blue-900'
+                          : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      }`}
+                    >
+                      <span className="font-medium">{v.label}</span>
+                      <span className="text-xs text-gray-400 ml-2">{v.description}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -150,7 +157,7 @@ export default function PageQuestionnaire({ onComplete }: PageQuestionnaireProps
           <p className="text-sm text-gray-500 mb-4">Check all that apply. This affects which sections we include.</p>
           <div className="space-y-3">
             {[
-              { key: 'hasTestimonials', label: 'Patient testimonials with names' },
+              { key: 'hasTestimonials', label: 'Customer/client testimonials with names' },
               { key: 'hasBeforeAfter', label: 'Before/after photos' },
               { key: 'hasVideoTestimonials', label: 'Video testimonials' },
               { key: 'hasCredentials', label: 'Professional credentials/certifications' },

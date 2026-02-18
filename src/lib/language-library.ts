@@ -228,16 +228,16 @@ export function suggestCopyFromLanguage(
           `Tired of ${topPain}? Discover How to ${capitalizePhrase(topDesire)}`,
           `From "${topPain}" to "${topDesire}" -- Your Transformation Starts Here`,
           `Finally, ${capitalizePhrase(topDesire)} Without the ${capitalizePhrase(topPain)}`,
-          `What Our Patients Say: "${capitalizePhrase(topEmotion)}" -- And You Can Too`,
+          `What Our Customers Say: "${capitalizePhrase(topEmotion)}" -- And You Can Too`,
         );
         break;
 
       case 'subheadline':
         suggestions.push(
-          `Our patients told us "${topPain}" was their biggest concern. That's why we built a better way to ${topDesire}.`,
+          `Our customers told us "${topPain}" was their biggest concern. That's why we built a better way to ${topDesire}.`,
           `We hear you: "${secondPain}" shouldn't stand between you and ${topDesire}. Here's how we help.`,
           `Join hundreds who went from feeling "${topPain}" to experiencing "${topDesire}" -- with care designed around your needs.`,
-          `"${capitalizePhrase(topEmotion)}" -- the words patients use most to describe their experience with us.`,
+          `"${capitalizePhrase(topEmotion)}" -- the words customers use most to describe their experience with us.`,
         );
         break;
 
@@ -253,7 +253,7 @@ export function suggestCopyFromLanguage(
       default:
         suggestions.push(
           `Address "${topPain}" and promise "${topDesire}" in your copy.`,
-          `Use emotional language like "${topEmotion}" that mirrors your patients' own words.`,
+          `Use emotional language like "${topEmotion}" that mirrors your customers' own words.`,
         );
     }
 

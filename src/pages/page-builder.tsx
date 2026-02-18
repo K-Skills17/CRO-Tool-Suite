@@ -37,7 +37,7 @@ export default function PageBuilderPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Landing Page Assembly System</h1>
           <p className="text-gray-500 mt-1">
-            Build conversion-optimized healthcare landing pages with tested components
+            Build conversion-optimized landing pages with tested components
           </p>
         </div>
 

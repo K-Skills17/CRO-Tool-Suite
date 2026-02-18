@@ -11,7 +11,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { analyzeAndScore, type CopyReport } from '@/lib/copy-engine';
-import { VERTICAL_OPTIONS } from '@/config/healthcare-verticals';
+import { getVerticalOptionsByIndustry } from '@/config/healthcare-verticals';
 import { isAppError } from '@/utils/errors';
 
 // ---------------------------------------------------------------------------
@@ -153,7 +153,7 @@ export default function CopyAnalyzer() {
             htmlFor="vertical-select"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Healthcare vertical (optional)
+            Industry vertical (optional)
           </label>
           <select
             id="vertical-select"
@@ -162,10 +162,14 @@ export default function CopyAnalyzer() {
             className="w-full sm:w-72 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white"
           >
             <option value="">-- No vertical (general analysis) --</option>
-            {VERTICAL_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
+            {getVerticalOptionsByIndustry().map((group) => (
+              <optgroup key={group.industry} label={group.label}>
+                {group.verticals.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>

@@ -75,7 +75,7 @@ export default function AuditPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Conversion Intelligence Platform</h1>
           <p className="text-gray-500 mt-1">
-            Analyze healthcare websites against 200+ CRO checkpoints
+            Analyze any website against 200+ CRO checkpoints
           </p>
         </div>
 
@@ -154,7 +154,7 @@ export default function AuditPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {Object.values(require('@/config/healthcare-verticals').HEALTHCARE_VERTICALS).map(
+                          {Object.values(require('@/config/healthcare-verticals').INDUSTRY_VERTICALS).map(
                             (v: any) => (
                               <tr key={v.id} className="border-b border-gray-100 hover:bg-gray-50">
                                 <td className="py-3 px-4 font-medium text-gray-900">{v.label}</td>

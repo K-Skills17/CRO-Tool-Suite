@@ -19,7 +19,7 @@ export default function CopyLabPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Conversion Copy Laboratory</h1>
           <p className="text-gray-500 mt-1">
-            Analyze, rewrite, and optimize healthcare conversion copy
+            Analyze, rewrite, and optimize conversion copy for any industry
           </p>
         </div>
 

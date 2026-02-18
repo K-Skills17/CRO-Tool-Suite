@@ -2,12 +2,12 @@
 
 /**
  * AuditForm Component
- * URL input with validation, healthcare vertical selector, and submit handler.
+ * URL input with validation, industry vertical selector, and submit handler.
  */
 
 import React, { useState, useCallback } from 'react';
 import type { VerticalId } from '@/config/healthcare-verticals';
-import { VERTICAL_OPTIONS } from '@/config/healthcare-verticals';
+import { getVerticalOptionsByIndustry, VERTICAL_OPTIONS } from '@/config/healthcare-verticals';
 import { isAppError, type AppError } from '@/utils/errors';
 
 // ---------------------------------------------------------------------------
@@ -129,7 +129,7 @@ export default function AuditForm({ onSubmit, isLoading = false, progress = 0, e
       {/* Vertical Selector */}
       <div>
         <label htmlFor="audit-vertical" className="block text-sm font-medium text-gray-700 mb-1">
-          Healthcare Vertical
+          Industry Vertical
         </label>
         <select
           id="audit-vertical"
@@ -138,10 +138,14 @@ export default function AuditForm({ onSubmit, isLoading = false, progress = 0, e
           disabled={isLoading}
           className="block w-full py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:text-gray-500 sm:text-sm"
         >
-          {VERTICAL_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
+          {getVerticalOptionsByIndustry().map((group) => (
+            <optgroup key={group.industry} label={group.label}>
+              {group.verticals.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
         <p className="mt-1 text-xs text-gray-500">

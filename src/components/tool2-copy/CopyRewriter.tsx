@@ -49,7 +49,7 @@ const FRAMEWORK_OPTIONS: { value: Framework; label: string; description: string 
   {
     value: 'FAB',
     label: 'FAB',
-    description: 'Feature - Advantage - Benefit: Translate features into clear patient benefits.',
+    description: 'Feature - Advantage - Benefit: Translate features into clear customer benefits.',
   },
 ];
 

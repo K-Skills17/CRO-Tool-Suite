@@ -14,7 +14,7 @@ export interface BrandConfig {
 
 const DEFAULT_BRAND: BrandConfig = {
   companyName: process.env.NEXT_PUBLIC_BRAND_NAME || 'CRO Tool Suite',
-  tagline: 'Healthcare Conversion Optimization Platform',
+  tagline: 'Conversion Rate Optimization Platform',
   primaryColor: process.env.NEXT_PUBLIC_BRAND_PRIMARY_COLOR || '#2563eb',
   secondaryColor: process.env.NEXT_PUBLIC_BRAND_SECONDARY_COLOR || '#1e40af',
   accentColor: '#3b82f6',

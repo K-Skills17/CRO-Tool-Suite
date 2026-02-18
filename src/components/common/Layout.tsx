@@ -31,7 +31,7 @@ export default function Layout({ children, activeTool, mode = 'internal', onMode
                 <span className="text-white font-bold text-sm">CRO</span>
               </div>
               <span className="font-semibold text-gray-900 hidden sm:block">
-                Healthcare CRO Suite
+                CRO Tool Suite
               </span>
             </div>
 
@@ -125,7 +125,7 @@ export default function Layout({ children, activeTool, mode = 'internal', onMode
       <footer className="border-t border-gray-200 bg-white mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <p className="text-xs text-gray-400 text-center">
-            Healthcare CRO Tool Suite &mdash; Conversion Optimization for Healthcare Providers
+            CRO Tool Suite &mdash; Conversion Rate Optimization for Any Industry
           </p>
         </div>
       </footer>

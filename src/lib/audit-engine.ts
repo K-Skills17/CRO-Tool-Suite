@@ -278,15 +278,15 @@ function evaluateCheckpoint(
     case 'ce-012': // No jargon overload
       passed = copy.readingEase >= 40;
       finding = passed
-        ? 'Copy readability is within acceptable range for healthcare'
-        : 'Copy may contain excessive medical jargon';
+        ? 'Copy readability is within acceptable range for general audiences'
+        : 'Copy may contain excessive jargon or overly complex language';
       break;
 
     case 'ce-013': // Second person language
       passed = copy.secondPersonCount >= 3;
       finding = passed
         ? `${copy.secondPersonCount} instances of "you/your" language detected`
-        : `Only ${copy.secondPersonCount} instances of "you/your". Address the patient directly.`;
+        : `Only ${copy.secondPersonCount} instances of "you/your". Address the reader directly.`;
       break;
 
     case 'ce-014': // Process/steps explained
@@ -313,11 +313,11 @@ function evaluateCheckpoint(
         : 'No professional credentials found. Display practitioner qualifications.';
       break;
 
-    case 'tc-002': // Patient testimonials
+    case 'tc-002': // Customer testimonials
       passed = html.trust.hasTestimonials;
       finding = passed
         ? 'Testimonial or review content detected'
-        : 'No patient testimonials found. Add social proof.';
+        : 'No testimonials found. Add social proof.';
       break;
 
     case 'tc-003': // Google reviews integration
@@ -334,11 +334,11 @@ function evaluateCheckpoint(
         : 'No experience duration mentioned. Add "X years of experience".';
       break;
 
-    case 'tc-005': // Patient count
+    case 'tc-005': // Customer count
       passed = html.trust.patientCountMentioned;
       finding = passed
-        ? 'Patient/client count statistic detected'
-        : 'No patient count mentioned. Add "X+ patients served".';
+        ? 'Customer/client count statistic detected'
+        : 'No customer count mentioned. Add "X+ customers served".';
       break;
 
     case 'tc-006': // Professional photos
@@ -359,7 +359,7 @@ function evaluateCheckpoint(
       passed = html.trust.hasInsuranceInfo;
       finding = passed
         ? 'Insurance or payment information detected'
-        : 'No insurance/payment info found. List accepted plans.';
+        : 'No payment/pricing info found. List accepted payment methods or pricing.';
       break;
 
     case 'tc-009': // Guarantee/risk reversal
@@ -373,7 +373,7 @@ function evaluateCheckpoint(
       passed = html.trust.hasAddress;
       finding = passed
         ? 'Physical address detected on page'
-        : 'No physical address found. Display clinic location.';
+        : 'No physical address found. Display business location.';
       break;
 
     case 'tc-011': // Phone number visible
@@ -401,7 +401,7 @@ function evaluateCheckpoint(
       passed = html.trust.hasTeamBios;
       finding = passed
         ? 'Team or staff bio section detected'
-        : 'No team bios found. Introduce your practitioners.';
+        : 'No team bios found. Introduce your team members.';
       break;
 
     case 'tc-015': // Map/directions
@@ -521,7 +521,7 @@ function evaluateCheckpoint(
       passed = html.trust.hasFAQ;
       finding = passed
         ? 'FAQ section detected'
-        : 'No FAQ section found. Address common patient questions.';
+        : 'No FAQ section found. Address common customer questions.';
       break;
 
     case 'cf-015': // Exit intent handling
@@ -845,10 +845,10 @@ function buildCategoryScore(
 // ---------------------------------------------------------------------------
 
 /**
- * Run a full CRO audit on the provided HTML for the given healthcare vertical.
+ * Run a full CRO audit on the provided HTML for the given industry vertical.
  *
  * @param html - Raw HTML string of the page to audit
- * @param verticalId - The healthcare vertical to use for weighting
+ * @param verticalId - The industry vertical to use for weighting
  * @param url - The original URL (used for SSL checks and metadata)
  * @returns A complete AuditResult with scores, analysis, and recommendations
  */

@@ -2,6 +2,7 @@
  * CRO Audit Checklist Configuration
  * 200+ checkpoints organized by the 7 scoring categories.
  * Each checkpoint has a weight, detection method hint, and description.
+ * Checkpoints are industry-agnostic and apply to any website vertical.
  */
 
 export interface AuditCheckpoint {
@@ -40,7 +41,7 @@ export const AUDIT_CHECKLIST: AuditCheckpoint[] = [
   { id: 'vh-003', category: 'visualHierarchy', name: 'Above-fold value prop', description: 'Primary value proposition visible without scrolling', weight: 5, detectMethod: 'structure', passCondition: 'Key content in first viewport' },
   { id: 'vh-004', category: 'visualHierarchy', name: 'Visual contrast on CTA', description: 'Primary CTA button has strong color contrast against background', weight: 4, detectMethod: 'css', passCondition: 'CTA contrast ratio > 4.5:1' },
   { id: 'vh-005', category: 'visualHierarchy', name: 'White space usage', description: 'Adequate spacing between sections prevents visual clutter', weight: 3, detectMethod: 'css', passCondition: 'Section padding >= 40px' },
-  { id: 'vh-006', category: 'visualHierarchy', name: 'Image quality', description: 'Images are high-quality and relevant to healthcare service', weight: 4, detectMethod: 'html', passCondition: 'Images present with adequate dimensions' },
+  { id: 'vh-006', category: 'visualHierarchy', name: 'Image quality', description: 'Images are high-quality and relevant to the service or product', weight: 4, detectMethod: 'html', passCondition: 'Images present with adequate dimensions' },
   { id: 'vh-007', category: 'visualHierarchy', name: 'Consistent typography', description: 'No more than 2-3 font families used across the page', weight: 3, detectMethod: 'css', passCondition: 'Font family count <= 3' },
   { id: 'vh-008', category: 'visualHierarchy', name: 'Readable font size', description: 'Body text is at least 16px for comfortable reading', weight: 4, detectMethod: 'css', passCondition: 'Body font-size >= 16px' },
   { id: 'vh-009', category: 'visualHierarchy', name: 'Line length control', description: 'Text lines do not exceed 75 characters for readability', weight: 3, detectMethod: 'css', passCondition: 'Max-width set on text containers' },
@@ -60,41 +61,42 @@ export const AUDIT_CHECKLIST: AuditCheckpoint[] = [
   { id: 'ce-001', category: 'copyEffectiveness', name: 'Benefit-focused headline', description: 'H1 communicates a clear benefit, not just a feature or name', weight: 5, detectMethod: 'content', passCondition: 'H1 contains benefit language' },
   { id: 'ce-002', category: 'copyEffectiveness', name: 'Subheadline supports H1', description: 'Subheading elaborates on the main headline promise', weight: 4, detectMethod: 'content', passCondition: 'H2 follows H1 with supporting text' },
   { id: 'ce-003', category: 'copyEffectiveness', name: 'Reading level appropriate', description: 'Copy is written at 6th-8th grade reading level for accessibility', weight: 4, detectMethod: 'content', passCondition: 'Flesch reading ease > 60' },
-  { id: 'ce-004', category: 'copyEffectiveness', name: 'Benefits over features', description: 'Copy leads with patient benefits rather than technical features', weight: 5, detectMethod: 'content', passCondition: 'Benefit language ratio > 0.5' },
+  { id: 'ce-004', category: 'copyEffectiveness', name: 'Benefits over features', description: 'Copy leads with customer benefits rather than technical features', weight: 5, detectMethod: 'content', passCondition: 'Benefit language ratio > 0.5' },
   { id: 'ce-005', category: 'copyEffectiveness', name: 'Emotional triggers present', description: 'Copy addresses emotional needs (safety, trust, confidence)', weight: 4, detectMethod: 'content', passCondition: 'Emotional keywords detected' },
   { id: 'ce-006', category: 'copyEffectiveness', name: 'Clear value proposition', description: 'Unique value proposition is stated within first 2 sections', weight: 5, detectMethod: 'content', passCondition: 'Differentiating language in top content' },
-  { id: 'ce-007', category: 'copyEffectiveness', name: 'Objection handling', description: 'Common patient objections are addressed in the copy', weight: 4, detectMethod: 'content', passCondition: 'FAQ or objection-handling content present' },
+  { id: 'ce-007', category: 'copyEffectiveness', name: 'Objection handling', description: 'Common customer objections are addressed in the copy', weight: 4, detectMethod: 'content', passCondition: 'FAQ or objection-handling content present' },
   { id: 'ce-008', category: 'copyEffectiveness', name: 'Urgency/scarcity cues', description: 'Appropriate urgency without being pushy (limited availability, etc.)', weight: 3, detectMethod: 'content', passCondition: 'Urgency language detected' },
   { id: 'ce-009', category: 'copyEffectiveness', name: 'Short paragraphs', description: 'Paragraphs are 3-4 lines max for easy scanning', weight: 3, detectMethod: 'html', passCondition: 'Average paragraph < 100 words' },
   { id: 'ce-010', category: 'copyEffectiveness', name: 'Power words usage', description: 'Copy uses persuasive power words (guaranteed, proven, trusted)', weight: 3, detectMethod: 'content', passCondition: 'Power words present in copy' },
-  { id: 'ce-011', category: 'copyEffectiveness', name: 'Service descriptions clear', description: 'Each service has a clear, patient-friendly description', weight: 4, detectMethod: 'content', passCondition: 'Service sections with descriptive text' },
-  { id: 'ce-012', category: 'copyEffectiveness', name: 'No jargon overload', description: 'Medical jargon is explained or avoided in patient-facing copy', weight: 4, detectMethod: 'content', passCondition: 'Low jargon density' },
-  { id: 'ce-013', category: 'copyEffectiveness', name: 'Second person language', description: 'Copy uses "you/your" to speak directly to the patient', weight: 3, detectMethod: 'content', passCondition: 'Second person pronouns present' },
+  { id: 'ce-011', category: 'copyEffectiveness', name: 'Service descriptions clear', description: 'Each service has a clear, customer-friendly description', weight: 4, detectMethod: 'content', passCondition: 'Service sections with descriptive text' },
+  { id: 'ce-012', category: 'copyEffectiveness', name: 'No jargon overload', description: 'Industry jargon is explained or avoided in customer-facing copy', weight: 4, detectMethod: 'content', passCondition: 'Low jargon density' },
+  { id: 'ce-013', category: 'copyEffectiveness', name: 'Second person language', description: 'Copy uses "you/your" to speak directly to the reader', weight: 3, detectMethod: 'content', passCondition: 'Second person pronouns present' },
   { id: 'ce-014', category: 'copyEffectiveness', name: 'Process/steps explained', description: 'How-it-works or what-to-expect section present', weight: 4, detectMethod: 'content', passCondition: 'Process/steps content detected' },
   { id: 'ce-015', category: 'copyEffectiveness', name: 'Micro-copy on forms', description: 'Form labels, placeholders, and helper text are clear', weight: 3, detectMethod: 'html', passCondition: 'Form fields have labels/placeholders' },
 
   // === TRUST & CREDIBILITY (30 checkpoints) ===
-  { id: 'tc-001', category: 'trustCredibility', name: 'Professional credentials', description: 'Doctor/practitioner credentials clearly displayed', weight: 5, detectMethod: 'content', passCondition: 'Credential indicators present (Dr., MD, DDS, etc.)' },
-  { id: 'tc-002', category: 'trustCredibility', name: 'Patient testimonials', description: 'Real patient testimonials with names or identifiers', weight: 5, detectMethod: 'content', passCondition: 'Testimonial content detected' },
+  { id: 'tc-001', category: 'trustCredibility', name: 'Professional credentials', description: 'Professional credentials or qualifications clearly displayed', weight: 5, detectMethod: 'content', passCondition: 'Credential indicators present (Dr., MD, DDS, JD, CPA, etc.)' },
+  { id: 'tc-002', category: 'trustCredibility', name: 'Customer testimonials', description: 'Real customer/client testimonials with names or identifiers', weight: 5, detectMethod: 'content', passCondition: 'Testimonial content detected' },
   { id: 'tc-003', category: 'trustCredibility', name: 'Google reviews integration', description: 'Google review score or link to reviews displayed', weight: 4, detectMethod: 'content', passCondition: 'Review/rating indicators present' },
   { id: 'tc-004', category: 'trustCredibility', name: 'Years in practice', description: 'Experience duration communicated (est. year or years count)', weight: 3, detectMethod: 'content', passCondition: 'Experience duration mentioned' },
-  { id: 'tc-005', category: 'trustCredibility', name: 'Patient count', description: 'Number of patients served is mentioned', weight: 3, detectMethod: 'content', passCondition: 'Patient count or similar stat present' },
+  { id: 'tc-005', category: 'trustCredibility', name: 'Customer count', description: 'Number of customers/clients served is mentioned', weight: 3, detectMethod: 'content', passCondition: 'Customer count or similar stat present' },
   { id: 'tc-006', category: 'trustCredibility', name: 'Professional photos', description: 'Professional team/facility photos (not stock photos)', weight: 4, detectMethod: 'html', passCondition: 'Multiple team/facility images' },
   { id: 'tc-007', category: 'trustCredibility', name: 'Association logos', description: 'Professional association memberships displayed', weight: 3, detectMethod: 'html', passCondition: 'Logo/badge images present' },
-  { id: 'tc-008', category: 'trustCredibility', name: 'Insurance/payment info', description: 'Accepted insurance or payment options listed', weight: 4, detectMethod: 'content', passCondition: 'Insurance/payment language detected' },
+  { id: 'tc-008', category: 'trustCredibility', name: 'Payment/pricing info', description: 'Accepted payment methods, pricing, or insurance options listed', weight: 4, detectMethod: 'content', passCondition: 'Payment/pricing/insurance language detected' },
   { id: 'tc-009', category: 'trustCredibility', name: 'Guarantee/risk reversal', description: 'Satisfaction guarantee or risk-free offer present', weight: 4, detectMethod: 'content', passCondition: 'Guarantee language detected' },
-  { id: 'tc-010', category: 'trustCredibility', name: 'Physical address visible', description: 'Physical clinic address is displayed', weight: 4, detectMethod: 'content', passCondition: 'Address pattern detected' },
+  { id: 'tc-010', category: 'trustCredibility', name: 'Physical address visible', description: 'Physical business address is displayed', weight: 4, detectMethod: 'content', passCondition: 'Address pattern detected' },
   { id: 'tc-011', category: 'trustCredibility', name: 'Phone number visible', description: 'Phone number prominently displayed', weight: 5, detectMethod: 'html', passCondition: 'tel: link or phone pattern detected' },
   { id: 'tc-012', category: 'trustCredibility', name: 'Before/after evidence', description: 'Before and after photos or case studies shown', weight: 3, detectMethod: 'content', passCondition: 'Before/after language or gallery detected' },
   { id: 'tc-013', category: 'trustCredibility', name: 'Awards/recognition', description: 'Industry awards or recognition displayed', weight: 2, detectMethod: 'content', passCondition: 'Award/recognition language detected' },
   { id: 'tc-014', category: 'trustCredibility', name: 'Team bios', description: 'Individual team member bios with photos and qualifications', weight: 4, detectMethod: 'content', passCondition: 'Team/staff bio section detected' },
+
   { id: 'tc-015', category: 'trustCredibility', name: 'Map/directions', description: 'Google Maps embed or directions provided', weight: 3, detectMethod: 'html', passCondition: 'Map iframe or directions link present' },
 
   // === CONVERSION FRICTION (30 checkpoints) ===
   { id: 'cf-001', category: 'conversionFriction', name: 'Form field count', description: 'Primary form has 5 or fewer fields', weight: 5, detectMethod: 'html', passCondition: 'Form field count <= 5' },
   { id: 'cf-002', category: 'conversionFriction', name: 'Single-step form', description: 'Primary conversion form fits on one screen', weight: 4, detectMethod: 'html', passCondition: 'Form is single-step' },
   { id: 'cf-003', category: 'conversionFriction', name: 'Click-to-call enabled', description: 'Phone numbers are clickable on mobile', weight: 5, detectMethod: 'html', passCondition: 'tel: links present' },
-  { id: 'cf-004', category: 'conversionFriction', name: 'WhatsApp integration', description: 'WhatsApp contact option available (critical for Brazil/LATAM)', weight: 4, detectMethod: 'html', passCondition: 'WhatsApp link detected' },
+  { id: 'cf-004', category: 'conversionFriction', name: 'WhatsApp/chat integration', description: 'WhatsApp, live chat, or messaging contact option available', weight: 4, detectMethod: 'html', passCondition: 'WhatsApp or chat link detected' },
   { id: 'cf-005', category: 'conversionFriction', name: 'Online booking available', description: 'Direct appointment booking functionality on site', weight: 5, detectMethod: 'html', passCondition: 'Booking/scheduling widget detected' },
   { id: 'cf-006', category: 'conversionFriction', name: 'Multiple contact options', description: 'At least 3 contact methods available (phone, form, email/WhatsApp)', weight: 4, detectMethod: 'html', passCondition: 'Multiple contact methods detected' },
   { id: 'cf-007', category: 'conversionFriction', name: 'Page load speed', description: 'Page loads in under 3 seconds', weight: 5, detectMethod: 'performance', passCondition: 'Load time < 3s' },
@@ -137,7 +139,7 @@ export const AUDIT_CHECKLIST: AuditCheckpoint[] = [
   { id: 'cp-001', category: 'compliancePrivacy', name: 'SSL certificate', description: 'Site uses HTTPS encryption', weight: 5, detectMethod: 'html', passCondition: 'HTTPS in URL' },
   { id: 'cp-002', category: 'compliancePrivacy', name: 'Privacy policy link', description: 'Privacy policy page linked from footer or form', weight: 5, detectMethod: 'html', passCondition: 'Privacy policy link detected' },
   { id: 'cp-003', category: 'compliancePrivacy', name: 'Cookie consent', description: 'Cookie consent banner or notice present', weight: 4, detectMethod: 'html', passCondition: 'Cookie consent element detected' },
-  { id: 'cp-004', category: 'compliancePrivacy', name: 'LGPD compliance signals', description: 'Brazilian data protection (LGPD) compliance indicators', weight: 4, detectMethod: 'content', passCondition: 'LGPD/data protection language detected' },
+  { id: 'cp-004', category: 'compliancePrivacy', name: 'Data protection compliance', description: 'Data protection compliance indicators (GDPR, LGPD, CCPA, etc.)', weight: 4, detectMethod: 'content', passCondition: 'Data protection language detected' },
   { id: 'cp-005', category: 'compliancePrivacy', name: 'Form data disclosure', description: 'Forms explain how submitted data will be used', weight: 3, detectMethod: 'html', passCondition: 'Data use notice near forms' },
   { id: 'cp-006', category: 'compliancePrivacy', name: 'Terms of service', description: 'Terms of service page accessible', weight: 3, detectMethod: 'html', passCondition: 'Terms link detected' },
   { id: 'cp-007', category: 'compliancePrivacy', name: 'Secure forms', description: 'Forms submit over HTTPS', weight: 5, detectMethod: 'html', passCondition: 'Form action uses HTTPS' },

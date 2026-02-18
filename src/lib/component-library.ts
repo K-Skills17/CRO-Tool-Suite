@@ -1,6 +1,6 @@
 /**
  * Landing Page Component Library & Assembly Engine
- * Stores pre-built, conversion-optimized healthcare landing page components
+ * Stores pre-built, conversion-optimized landing page components for any industry
  * and assembles them into complete pages based on questionnaire answers.
  */
 
@@ -74,7 +74,7 @@ const DEFAULT_COMPONENTS: LPComponent[] = [
   {
     id: 'hero-result', type: 'hero', style: 'result_focused',
     name: 'Result-Focused Hero',
-    description: 'Leads with the outcome/transformation patients achieve',
+    description: 'Leads with the outcome/transformation customers achieve',
     htmlTemplate: `<section class="lp-hero-result" style="padding:60px 20px;text-align:center;background:linear-gradient(135deg,{{brand_color}},{{brand_secondary}})">
   <div style="max-width:700px;margin:0 auto;color:#fff">
     <h1 style="font-size:2.5em;margin-bottom:16px">{{headline}}</h1>
@@ -129,7 +129,7 @@ const DEFAULT_COMPONENTS: LPComponent[] = [
   {
     id: 'trust-stats', type: 'trust_bar', style: 'stats_bar',
     name: 'Statistics Trust Bar',
-    description: 'Shows key numbers: years, patients, ratings',
+    description: 'Shows key numbers: years, customers served, ratings',
     htmlTemplate: `<section style="background:#fff;border-bottom:1px solid #e2e8f0;padding:20px">
   <div style="max-width:800px;margin:0 auto;display:flex;justify-content:space-around;text-align:center;flex-wrap:wrap;gap:16px">
     <div><strong style="font-size:1.5em;color:{{brand_color}}">{{stat_1_number}}</strong><br><span style="color:#64748b;font-size:0.85em">{{stat_1_label}}</span></div>
@@ -186,7 +186,7 @@ const DEFAULT_COMPONENTS: LPComponent[] = [
     name: 'Testimonial Cards',
     description: 'Three testimonial cards with quotes and names',
     htmlTemplate: `<section style="padding:60px 20px;background:#f8fafc">
-  <h2 style="text-align:center;color:#1e293b;margin-bottom:32px">What Our Patients Say</h2>
+  <h2 style="text-align:center;color:#1e293b;margin-bottom:32px">What Our Customers Say</h2>
   <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
     <div style="background:#fff;padding:24px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1)">
       <p style="color:#64748b;font-style:italic;margin-bottom:12px">"{{testimonial_1}}"</p>
@@ -351,7 +351,7 @@ const DEFAULT_COMPONENTS: LPComponent[] = [
   {
     id: 'feat-benefits', type: 'features', style: 'benefit_list',
     name: 'Benefits List',
-    description: 'Clean vertical list of patient benefits',
+    description: 'Clean vertical list of customer benefits',
     htmlTemplate: `<section style="padding:60px 20px;background:#fff">
   <div style="max-width:600px;margin:0 auto">
     <h2 style="color:#1e293b;margin-bottom:24px;text-align:center">{{benefits_headline}}</h2>
@@ -392,7 +392,7 @@ const DEFAULT_COMPONENTS: LPComponent[] = [
   {
     id: 'proc-timeline', type: 'process', style: 'timeline',
     name: 'Timeline Process',
-    description: 'Vertical timeline showing patient journey',
+    description: 'Vertical timeline showing customer journey',
     htmlTemplate: `<section style="padding:60px 20px;background:#fff">
   <h2 style="text-align:center;color:#1e293b;margin-bottom:32px">Your Journey With Us</h2>
   <div style="max-width:500px;margin:0 auto;border-left:3px solid {{brand_color}};padding-left:24px">
@@ -634,7 +634,7 @@ export function recommendLayout(answers: QuestionnaireAnswers): PageLayout {
     } else {
       testimonial = testimonials.find((t) => t.style === 'card_grid') || testimonials[0];
     }
-    sections.push({ component: testimonial, order: order++, rationale: 'Social proof from real patients' });
+    sections.push({ component: testimonial, order: order++, rationale: 'Social proof from real customers' });
   }
 
   // 6. Guarantee
