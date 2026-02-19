@@ -51,7 +51,7 @@ export default function CommandCenterPage() {
               {
                 id: 'reports',
                 label: 'Reports',
-                content: <ReportGenerator mode={mode} />,
+                content: <ReportGenerator />,
               },
             ]}
           />
