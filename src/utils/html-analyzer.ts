@@ -198,11 +198,12 @@ function analyzeForms(html: string): FormAnalysis {
       || form.match(/<input[^>]*type\s*=\s*["']submit["'][^>]*>/gi) || [];
 
     let submitText = 'Submit';
-    if (submitBtns.length > 0) {
-      const textMatch = submitBtns[0].replace(/<[^>]*>/g, '').trim();
+    const firstBtn = submitBtns[0];
+    if (firstBtn) {
+      const textMatch = firstBtn.replace(/<[^>]*>/g, '').trim();
       if (textMatch) submitText = textMatch;
       else {
-        const valMatch = submitBtns[0].match(/value\s*=\s*["']([^"']+)["']/i);
+        const valMatch = firstBtn.match(/value\s*=\s*["']([^"']+)["']/i);
         if (valMatch) submitText = valMatch[1];
       }
     }

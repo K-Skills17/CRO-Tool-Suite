@@ -29,17 +29,17 @@ export default function CopyLabPage() {
               {
                 id: 'analyze',
                 label: 'Copy Analyzer',
-                content: <CopyAnalyzer mode={mode} />,
+                content: <CopyAnalyzer />,
               },
               {
                 id: 'rewrite',
                 label: 'Copy Rewriter',
-                content: <CopyRewriter mode={mode} />,
+                content: <CopyRewriter />,
               },
               {
                 id: 'language',
                 label: 'Customer Language',
-                content: <LanguageExtractor mode={mode} />,
+                content: <LanguageExtractor />,
               },
             ]}
           />

@@ -14,12 +14,12 @@ import { runAudit, AuditResult } from '@/lib/audit-engine';
 import { compareAudits, CompetitorComparison } from '@/lib/competitor-analyzer';
 import { getVerticalConfig } from '@/config/healthcare-verticals';
 import type { VerticalId } from '@/config/healthcare-verticals';
-import { handleError, logError } from '@/utils/errors';
+import { handleError, logError, type AppError } from '@/utils/errors';
 
 export default function AuditPage() {
   const [mode, setMode] = useState<'internal' | 'client'>('internal');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<AppError | null>(null);
   const [auditResult, setAuditResult] = useState<AuditResult | null>(null);
   const [competitorResults, setCompetitorResults] = useState<AuditResult[]>([]);
   const [comparison, setComparison] = useState<CompetitorComparison | null>(null);
@@ -39,7 +39,7 @@ export default function AuditPage() {
     } catch (err) {
       const appError = handleError(err);
       logError(appError);
-      setError(appError.userMessage);
+      setError(appError);
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,7 @@ export default function AuditPage() {
     } catch (err) {
       const appError = handleError(err);
       logError(appError);
-      setError(appError.userMessage);
+      setError(appError);
     } finally {
       setLoading(false);
     }
@@ -89,21 +89,18 @@ export default function AuditPage() {
                   <div className="space-y-6">
                     <AuditForm
                       onSubmit={handleAudit}
-                      loading={loading}
+                      isLoading={loading}
                       error={error}
-                      onErrorDismiss={() => setError(null)}
                     />
                     {auditResult && verticalConfig && (
                       <>
                         <ScoreCard
                           score={auditResult.overallScore}
                           vertical={verticalConfig}
-                          mode={mode}
                         />
                         <RecommendationList
                           recommendations={auditResult.recommendations}
                           categoryScores={auditResult.overallScore.categories}
-                          mode={mode}
                         />
                       </>
                     )}
@@ -123,14 +120,11 @@ export default function AuditPage() {
                       <>
                         <AuditForm
                           onSubmit={handleCompetitorAdd}
-                          loading={loading}
+                          isLoading={loading}
                           error={error}
-                          onErrorDismiss={() => setError(null)}
-                          buttonLabel="Add Competitor"
-                          defaultVertical={auditResult.vertical}
                         />
                         {comparison && (
-                          <CompetitorView comparison={comparison} mode={mode} />
+                          <CompetitorView comparison={comparison} />
                         )}
                       </>
                     )}
