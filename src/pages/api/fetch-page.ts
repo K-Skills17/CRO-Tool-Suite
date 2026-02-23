@@ -76,14 +76,14 @@ export default async function handler(
     const truncatedHtml = html.slice(0, 2_000_000);
 
     return res.status(200).json({ html: truncatedHtml });
-  } catch (err: any) {
-    if (err.name === 'AbortError') {
+  } catch (err: unknown) {
+    if (err instanceof Error && err.name === 'AbortError') {
       return res.status(504).json({ error: 'Request timed out after 15 seconds' });
     }
 
-    console.error('[FETCH_PAGE_ERROR]', err.message);
+    const message = err instanceof Error ? err.message : 'Unknown error';
     return res.status(502).json({
-      error: `Failed to fetch page: ${err.message}`,
+      error: `Failed to fetch page: ${message}`,
     });
   }
 }

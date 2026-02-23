@@ -18,8 +18,7 @@ export default function PagePreview({ layout, brand }: PagePreviewProps) {
   const assembledHTML = useMemo(() => {
     try {
       return assemblePageHTML(layout, brand);
-    } catch (err) {
-      console.error('[PREVIEW_ERROR]', err);
+    } catch {
       return '<html><body><p>Error assembling page preview.</p></body></html>';
     }
   }, [layout, brand]);

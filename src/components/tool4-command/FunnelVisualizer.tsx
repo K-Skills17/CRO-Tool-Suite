@@ -120,7 +120,7 @@ function parseCSV(raw: string): FunnelPeriod | null {
   const label = firstRow[0];
   const counts = firstRow.slice(1, 5).map(Number);
 
-  if (counts.some(isNaN)) return null;
+  if (counts.some(isNaN) || counts.some((c) => c < 0)) return null;
 
   return {
     id: generateId(),

@@ -101,7 +101,22 @@ export function analyzeTestResults(
   const pPool = (controlConversions + variationConversions) / (controlVisitors + variationVisitors);
 
   const se = Math.sqrt(pPool * (1 - pPool) * (1 / controlVisitors + 1 / variationVisitors));
-  const zScore = se > 0 ? (p2 - p1) / se : 0;
+
+  if (se === 0) {
+    // Both groups have identical conversion rates; no meaningful test result
+    return {
+      isSignificant: false,
+      confidence: 0,
+      pValue: 1,
+      controlCR: Math.round(p1 * 10000) / 100,
+      variationCR: Math.round(p2 * 10000) / 100,
+      absoluteLift: 0,
+      relativeLift: 0,
+      revenueImpact: 0,
+    };
+  }
+
+  const zScore = (p2 - p1) / se;
 
   // Two-tailed p-value approximation
   const pValue = 2 * (1 - normalCDF(Math.abs(zScore)));

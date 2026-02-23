@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
+import { useClipboard } from '@/hooks/useClipboard';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -44,6 +45,20 @@ export interface ReportGeneratorProps {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
+
+/** Escape HTML to prevent XSS when embedding user-provided strings */
+function escapeHTML(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ------------------------------------------------------------------ */
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
@@ -80,8 +95,10 @@ export default function ReportGenerator({
   );
   const [showPreview, setShowPreview] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
 
   const reportRef = useRef<HTMLDivElement>(null);
+  const { copyToClipboard, copied } = useClipboard();
 
   /* Resolved period string */
   const resolvedPeriod = useMemo(() => {
@@ -132,19 +149,32 @@ export default function ReportGenerator({
     setShowPreview(true);
   };
 
-  const handleExportPDF = () => {
-    alert(
-      'PDF export requires the jsPDF library.\n\nInstall with: npm install jspdf\n\nThen integrate jsPDF to convert the report HTML to a downloadable PDF.',
-    );
+  const handleExportPDF = async () => {
+    if (!reportRef.current) return;
+    try {
+      const jsPDFModule = await import('jspdf');
+      const jsPDF = jsPDFModule.default;
+      const html2canvasModule = await import('html2canvas');
+      const html2canvas = html2canvasModule.default;
+
+      const canvas = await html2canvas(reportRef.current, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${projectName || 'CRO-Report'}.pdf`);
+      setNotification('PDF exported successfully.');
+    } catch {
+      setNotification('PDF export failed. Ensure jspdf and html2canvas are installed.');
+    }
+    setTimeout(() => setNotification(null), 3000);
   };
 
   const handleCopyHTML = () => {
     if (!reportRef.current) return;
     const html = reportRef.current.innerHTML;
-    navigator.clipboard.writeText(html).then(
-      () => alert('Report HTML copied to clipboard.'),
-      () => alert('Failed to copy. Please try again.'),
-    );
+    copyToClipboard(html);
   };
 
   /* ---------------------------------------------------------------- */
@@ -162,7 +192,7 @@ export default function ReportGenerator({
           CRO Performance Report
         </h1>
         <p style="font-size:16px;color:#6b7280;margin-top:4px;">
-          ${projectName} &mdash; ${resolvedPeriod}
+          ${escapeHTML(projectName)} &mdash; ${escapeHTML(resolvedPeriod)}
         </p>
         ${mode === 'client' ? '' : '<p style="font-size:12px;color:#ef4444;margin-top:2px;">INTERNAL USE ONLY</p>'}
       </div>
@@ -187,7 +217,7 @@ export default function ReportGenerator({
             <table style="width:100%;border-collapse:collapse;margin-top:8px;">
               <thead>
                 <tr style="background:#f9fafb;">
-                  ${funnelData.stages.map((s) => `<th style="text-align:left;padding:6px 10px;font-size:13px;color:#6b7280;border-bottom:1px solid #e5e7eb;">${s.label}</th>`).join('')}
+                  ${funnelData.stages.map((s) => `<th style="text-align:left;padding:6px 10px;font-size:13px;color:#6b7280;border-bottom:1px solid #e5e7eb;">${escapeHTML(s.label)}</th>`).join('')}
                 </tr>
               </thead>
               <tbody>
@@ -227,7 +257,7 @@ export default function ReportGenerator({
                   .map(
                     (t) => `
                   <tr>
-                    <td style="padding:6px 10px;font-size:14px;color:#111827;border-bottom:1px solid #f3f4f6;">${t.name}</td>
+                    <td style="padding:6px 10px;font-size:14px;color:#111827;border-bottom:1px solid #f3f4f6;">${escapeHTML(t.name)}</td>
                     <td style="text-align:center;padding:6px 10px;font-size:13px;border-bottom:1px solid #f3f4f6;">
                       <span style="padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600;${
                         t.result === 'win'
@@ -268,7 +298,7 @@ export default function ReportGenerator({
               ? `
             <h3 style="font-size:15px;font-weight:600;color:#065f46;margin-bottom:8px;">Wins</h3>
             <ul style="list-style:disc;padding-left:20px;margin-bottom:16px;">
-              ${wins.map((w) => `<li style="font-size:14px;color:#374151;margin-bottom:4px;">${w.name}${w.lift !== undefined ? ` (+${w.lift}% lift)` : ''}</li>`).join('')}
+              ${wins.map((w) => `<li style="font-size:14px;color:#374151;margin-bottom:4px;">${escapeHTML(w.name)}${w.lift !== undefined ? ` (+${w.lift}% lift)` : ''}</li>`).join('')}
             </ul>
           `
               : '<p style="font-size:14px;color:#9ca3af;margin-bottom:16px;">No wins recorded this period.</p>'
@@ -278,7 +308,7 @@ export default function ReportGenerator({
               ? `
             <h3 style="font-size:15px;font-weight:600;color:#1e40af;margin-bottom:8px;">Key Learnings</h3>
             <ul style="list-style:disc;padding-left:20px;">
-              ${learnings.map((l) => `<li style="font-size:14px;color:#374151;margin-bottom:4px;"><strong>${l.name}:</strong> ${l.learning}</li>`).join('')}
+              ${learnings.map((l) => `<li style="font-size:14px;color:#374151;margin-bottom:4px;"><strong>${escapeHTML(l.name)}:</strong> ${escapeHTML(l.learning || '')}</li>`).join('')}
             </ul>
           `
               : '<p style="font-size:14px;color:#9ca3af;">No learnings documented. Add learning notes to your test results.</p>'
@@ -570,7 +600,7 @@ export default function ReportGenerator({
                 onClick={handleCopyHTML}
                 className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
               >
-                Copy HTML
+                {copied ? 'Copied!' : 'Copy HTML'}
               </button>
               <button
                 onClick={handleExportPDF}
@@ -580,6 +610,12 @@ export default function ReportGenerator({
               </button>
             </div>
           </div>
+
+          {notification && (
+            <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+              {notification}
+            </div>
+          )}
 
           <div
             ref={reportRef}

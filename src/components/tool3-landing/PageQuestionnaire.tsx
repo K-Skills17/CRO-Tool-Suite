@@ -34,7 +34,7 @@ export default function PageQuestionnaire({ onComplete }: PageQuestionnaireProps
 
   const totalSteps = 5;
 
-  const updateAnswer = (key: string, value: any) => {
+  const updateAnswer = (key: string, value: string | boolean) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -165,7 +165,7 @@ export default function PageQuestionnaire({ onComplete }: PageQuestionnaireProps
               <label key={item.key} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:border-gray-300 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={!!(answers as any)[item.key]}
+                  checked={!!(answers as Record<string, unknown>)[item.key]}
                   onChange={(e) => updateAnswer(item.key, e.target.checked)}
                   className="w-4 h-4 text-blue-600 rounded"
                 />
